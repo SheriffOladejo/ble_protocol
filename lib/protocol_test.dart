@@ -5,7 +5,6 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class ProtocolTest extends StatefulWidget {
-  const ProtocolTest({Key key}) : super(key: key);
 
   @override
   State<ProtocolTest> createState() => _ProtocolTestState();
@@ -13,13 +12,6 @@ class ProtocolTest extends StatefulWidget {
 
 class _ProtocolTestState extends State<ProtocolTest> {
 
-  List<List<int>> cmds = [
-    [0xAA, 0x55, 0x04, 0xB1, 0x00, 0x00, 0xB5],
-    [0xB5, 0x00, 0x00, 0xB1, 0x04, 0x55, 0xAA],
-    [0xAA, 0x55, 0x04, 0xB1, 0xB5],
-    [0xB5, 0xB1, 0x04, 0x55, 0xAA],
-
-  ];
 
   final FlutterBluePlus flutterBlue = FlutterBluePlus.instance;
 
@@ -179,11 +171,6 @@ class _ProtocolTestState extends State<ProtocolTest> {
                             splashColor: Theme.of(context).primaryColor,
                             child: const Text("Send"),
                             onPressed: () {
-                              for(int i = 0; i < cmds.length; i++) {
-                                Future.delayed(const Duration(seconds: 2), () async {
-                                  var result = characteristic.write(cmds[i]);
-                                });
-                              }
                               characteristic.write(
                                   utf8.encode(writeController.value.text), withoutResponse: true);
                               writeController.text = '';
